@@ -1,8 +1,29 @@
-#include <map>
+#include "monsterdie.h"
 #include <string>
+#include <map>
+#include <cstdlib>
 
-enum monster_types = {Slime, Skeleton, Goblin, Potion, Chest, Dragon};
+/*declare static members*/
+map<int, monster_type> MonsterDie::mons_map;
+map<monster_type, string> MonsterDie::name_map;
 
-class MonsterDie{
-private:
-  
+MonsterDie::MonsterDie(){
+  myFace = None;
+}
+
+MonsterDie::MonsterDie(monster_type my){
+  myFace = my;
+}
+
+monster_type MonsterDie::getFace(){
+  return myFace;
+}
+
+void MonsterDie::reRoll(){
+  myFace = mons_map[rand()%6];
+  return;
+}
+
+void MonsterDie::setFace(monster_type a){
+  myFace = a;
+}
