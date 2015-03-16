@@ -1,0 +1,4 @@
+Implement items, item pool, dragon den, turn die. 
+
+Implement a function that implements turn order, then other functions that implement the rules. 
+
