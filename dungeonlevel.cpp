@@ -1,6 +1,8 @@
 #include <vector>
 #include "dungeonlevel.h"
+#include <iostream>
 
+using namespace std;
 
 const int DungeonLevel::default_size = 6;
 
@@ -48,4 +50,12 @@ int DungeonLevel::removeType(monster_type torem){
     }
   }
   return count;
+}
+
+void DungeonLevel::dumpLevel(){
+  for (int a=-0; a < dice.size(); a++){
+    cout << a << ". " << MonsterDie::name_map[dice[a].getFace()] << endl;
+  }
+  
+  return;
 }

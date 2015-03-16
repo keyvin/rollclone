@@ -9,16 +9,16 @@ class Party {
  private:
   vector<PartyDie> party;
   static const int numdie;
-  int tmpdie = 0;
+  int tmpdie;
  public:
-  
+
   Party(); /*new party*/
   void reroll(const int&);
   vector <party_types> getArray();
   party_types getPos(const int&);
   void addItem(const Item &);
-  
+
   void clearTemp();
   void markUsed(const int&);
-
+  void dumpParty();
 };

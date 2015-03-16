@@ -1,5 +1,7 @@
+#include <iostream>
 #include "party.h"
 
+using namespace std;
 const int Party::numdie = 6;
 
 
@@ -49,6 +51,12 @@ void Party::markUsed(const int &pos){
   return;
 }
 
-
+void Party::dumpParty() {
+  for (int a = 0; a < party.size(); a++){
+    cout << a << ". " << PartyDie::TypeToString[party[a].getDie()] << endl;
+  }
+  return;
+}
+      
 
 

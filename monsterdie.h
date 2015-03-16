@@ -16,7 +16,7 @@ public:
   static map<int, monster_type> mons_map;
   static map<monster_type, string> name_map;
   /*Function has to be called to init this class*/
-  static void make_maps(){
+  static void makeMaps(){
     MonsterDie::mons_map[0] = Slime;
     MonsterDie::mons_map[1] = Skeleton;
     MonsterDie::mons_map[2] = Goblin;
