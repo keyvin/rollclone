@@ -8,6 +8,7 @@ using namespace std;
 
 map <int, party_types>PartyDie::PartyMap;
 map <party_types, string> PartyDie::TypeToString;
+map <party_types, monster_type> PartyDie::Bane;
 
 PartyDie::PartyDie(){
   reroll();

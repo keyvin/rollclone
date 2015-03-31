@@ -3,8 +3,18 @@
 #include "dungeonlevel.h"
 #include "dragonden.h"
 #include "dungeondie.h"
+//#include "misc.h"
+/* phases 
+1.a. use scrolls to reroll dice
+1.b. Use hero abilities
+1.c. Use companions to defeat monsters
+2. Loot Phase
+2.a open chests - get one treasure per chest
+2.b quaff potions to revive dice
+3. Dragon Phase
+*/
 
-enum Phase = {Pre, Combat, Post, Dragon};
+enum Phase = {Monster, Loot, Dragon, Regroup};
 using namespace std;
 /* this class has a combat rules object that is changed by hero passives. Need to implement this. One place a heirarchy will work out nicely */
 class Table {
@@ -13,7 +23,7 @@ class Table {
   DungeonLevel current_level();
   DragonDen den();
   DungeonDie d_die();
-  Phase gamePhase;
+  Phase game_phase;
   
  public:
   Table();

@@ -1,5 +1,6 @@
 #include <map>
 #include <string>
+#include "monsterdie.h"
 using namespace std; 
 
 enum party_types {Fighter, Cleric, Mage, Thief, Champion, Scroll, Used};
@@ -23,7 +24,7 @@ class PartyDie
   void reroll();
   static map<int, party_types> PartyMap;
   static map<party_types, string> TypeToString;
-
+  static map<party_types, monster_type> Bane;
   static void initPartyMap()
   {
     PartyDie::PartyMap[0] = Fighter;
@@ -38,6 +39,10 @@ class PartyDie
     PartyDie::TypeToString[Mage] = string("Mage");
     PartyDie::TypeToString[Champion] = string("champion");
     PartyDie::TypeToString[Scroll] = string("scroll");
+    PartyDie::Bane[Fighter] = Goblin;
+    PartyDie::Bane[Mage] = Slime;
+    PartyDie::Bane[Cleric] = Skeleton;
+    PartyDie::Bane[Thief] = Chest;
     return;
 }
  private:

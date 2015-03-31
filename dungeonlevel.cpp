@@ -52,8 +52,17 @@ int DungeonLevel::removeType(monster_type torem){
   return count;
 }
 
+bool DungeonLevel::monsLeft(){
+  for (int a=0; a < dice.size(); a++){
+    monster_type face = dice[a].getFace();
+    if (face==Slime||face==Goblin||face==Skeleton)
+      return true;
+  }
+  return false;
+}
+
 void DungeonLevel::dumpLevel(){
-  for (int a=-0; a < dice.size(); a++){
+  for (int a=0; a < dice.size(); a++){
     cout << a << ". " << MonsterDie::name_map[dice[a].getFace()] << endl;
   }
   
