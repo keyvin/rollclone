@@ -16,8 +16,11 @@ void Table::dumpTable(){
 void Table::parseCommand(string command){
   //use dice
   if (command[0] == 'd') {
-    
+    parseDiceCommand(command);
   }
+  //use item
+
+  //use
   
   return;
 }
@@ -67,12 +70,39 @@ void Table::parseDiceCommand(string command){
       my_party.markUsed(die);
     }
     if (!current_level.monsLeft()){
-      game_phase = Loot;
+      if (current_level.getSize()){
+	game_phase = Loot;
+      }
+      else
+	game_phase = Dragon;
       return;
     }
   }
+  
   if (game_phase == Loot){
     /*quaff potions and loot chests code*/
+    if (current_level.getFace(mon) == Potion){
+      cout << "Should revive dice, might need to make another stage of the game for quaffing potions" << endl;
+      /*set dice to selected, remove potions*/
+    }
+    if (current_level.getFace(mon) == Chest){
+      cout << "Get some treasures" << endl;
+      p_die = my_party.getPos(die);
+      if (p_face == Thief || p_face == Champion){
+	/*get all treasures*/
+	int num_treas = current_level.removeType(Chest);
+	cout << "stub to award "<< num_treas << "." << endl;
+      }
+      else{
+	current_level.remove(mon);
+	my_party.markUsed(die);
+	cout << "Award one treasure" << endl;
+	/*award one treasure*/
+      }
+      if (current_level.getSize() == 0){
+	game_phase = Dragon;
+      }
   }
+  
   return;
 }
