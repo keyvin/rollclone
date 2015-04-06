@@ -3,6 +3,7 @@
 #include "dungeonlevel.h"
 #include "dragonden.h"
 #include "dungeondie.h"
+#include "itempool.h"
 //#include "misc.h"
 /* phases 
 1.a. use scrolls to reroll dice
@@ -14,7 +15,7 @@
 3. Dragon Phase
 */
 
-enum Phase  {Monster, Loot, Dragon_Phase, Regroup};
+enum Phase  {Item, Monster, Loot, Dragon_Phase, Regroup};
 using namespace std;
 /* this class has a combat rules object that is changed by hero passives. Need to implement this. One place a heirarchy will work out nicely */
 class Table {
@@ -24,10 +25,11 @@ class Table {
   DragonDen den;
   DungeonDie d_die;
   Phase game_phase;
-  
+  ItemPool item_pool;
  public:
   Table();
   void dumpTable();
   void parseCommand(string command);
   void parseDiceCommand(string);
+  void parseItem(string);
 };

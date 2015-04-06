@@ -1,6 +1,8 @@
 #include <ctype.h>
 #include <cstdlib>
 #include <string>
+#include <cstdio>
+#include <cstring>
 #include "table.h"
 #include "partydie.h"
 
@@ -112,5 +114,41 @@ void Table::parseDiceCommand(string command){
 
 void Table::parseItem(string command){
 /*parse the usage of items - add temporary dice to the party, etc.*/
-return;
+  char t;
+  int pos = -1;
+  item itm;
+  if (game_phase == Item){
+    sscanf(command.c_str(), "%c%d", &t, &pos); //this is not the cpp way to handle this.
+    if (pos < 0 || pos > item_pool.getSize()){
+      cout << "ERROR, item out of bounds" << endl;
+      return;
+    }
+    /*long ass code that handles the logic for item usage*/
+    itm = item_pool.useItem(pos);
+    switch (itm){
+      case VBlade:
+	my_party.addTmp(Fighter);
+	break;
+      case Talisman:
+	my_party.addTmp(Cleric);
+	break;
+      case SPower:
+	my_party.addTmp(Mage);
+	break;
+      case ThvTool:
+	my_party.addTmp(Thief);
+	break;
+      case IScroll:
+	break;
+      case RInv:
+	break;
+      case Elixer:
+	break;
+      case DBait:
+	break;
+      case TPortal:
+	break;
+     }
+  }
+  return;
 }

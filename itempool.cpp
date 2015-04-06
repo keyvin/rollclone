@@ -22,3 +22,7 @@ vector<item> ItemPool::getList(){
 int ItemPool::getScore(){
   return 0;
 }
+
+int ItemPool::getSize(){
+  return item_pool.size();
+}

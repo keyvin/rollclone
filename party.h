@@ -5,7 +5,7 @@
 
 
 /*stub definition*/
-typedef int Item;
+//typedef int Item;
 
 class Party {
  private:
@@ -18,7 +18,7 @@ class Party {
   void reroll(const int&);
   vector <party_types> getArray();
   party_types getPos(const int&);
-  void addItem(const Item &);
+  void addTmp(const party_types &);
 
   void clearTemp();
   void markUsed(const int&);

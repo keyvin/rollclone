@@ -20,5 +20,6 @@ class ItemPool {
   /*pass by value (hopefully)*/
   vector<item> getList();
   int getScore();
+  int getSize();
 };
 #endif

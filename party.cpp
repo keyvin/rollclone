@@ -32,7 +32,10 @@ party_types Party::getPos(const int &pos){
 }
 
 /*stub for now - must set tmp flag*/
-void Party::addItem(const Item &item){
+void Party::addTmp(const party_types &p_face){
+  PartyDie tmp(p_face);
+  tmp.toggleTemp();
+  party.push_back(tmp);
   return;
 }
 

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-enum item { VSword, Talisman, SPower, ThvTool, IScroll, RInv, Scale, Elixer, DBait, TPortal};
+enum item { VBlade, Talisman, SPower, ThvTool, IScroll, RInv, Scale, Elixer, DBait, TPortal};
 
 
 
