@@ -14,19 +14,20 @@
 3. Dragon Phase
 */
 
-enum Phase = {Monster, Loot, Dragon, Regroup};
+enum Phase  {Monster, Loot, Dragon_Phase, Regroup};
 using namespace std;
 /* this class has a combat rules object that is changed by hero passives. Need to implement this. One place a heirarchy will work out nicely */
 class Table {
  private:
-  Party my_party();
-  DungeonLevel current_level();
-  DragonDen den();
-  DungeonDie d_die();
+  Party my_party;
+  DungeonLevel current_level;
+  DragonDen den;
+  DungeonDie d_die;
   Phase game_phase;
   
  public:
   Table();
   void dumpTable();
-  parseCommand(string command);
+  void parseCommand(string command);
+  void parseDiceCommand(string);
 };

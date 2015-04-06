@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <string>
 #include "table.h"
+#include "partydie.h"
+
 
 using namespace std;
 
@@ -27,17 +29,17 @@ void Table::parseCommand(string command){
 
 void Table::parseDiceCommand(string command){
   int pos = 1;
-  string read_int();
+  string read_int;
   int die = -1;
   int mon = -1;
-  party_type p_die;
+  party_types p_die;
   monster_type m_die;
   if (isdigit(command[1])){
-    read_int += command[1];
+    read_int.append(&command[1]);
     pos++;
   }
   if (isdigit(command[2])){
-    read_int += command[2];
+    read_int.append(&command[2]);
     pos++;
   }
     //Con
@@ -74,12 +76,13 @@ void Table::parseDiceCommand(string command){
 	game_phase = Loot;
       }
       else
-	game_phase = Dragon;
+	game_phase = Dragon_Phase;
       return;
     }
   }
   
   if (game_phase == Loot){
+    party_types p_face;
     /*quaff potions and loot chests code*/
     if (current_level.getFace(mon) == Potion){
       cout << "Should revive dice, might need to make another stage of the game for quaffing potions" << endl;
@@ -100,9 +103,14 @@ void Table::parseDiceCommand(string command){
 	/*award one treasure*/
       }
       if (current_level.getSize() == 0){
-	game_phase = Dragon;
+	game_phase = Dragon_Phase;
       }
+    }
   }
-  
   return;
+}
+
+void Table::parseItem(string command){
+/*parse the usage of items - add temporary dice to the party, etc.*/
+return;
 }
