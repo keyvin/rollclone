@@ -1,3 +1,5 @@
+#ifndef PARTY_H
+#define PARTY_H
 #include "partydie.h"
 #include <vector>
 
@@ -22,3 +24,4 @@ class Party {
   void markUsed(const int&);
   void dumpParty();
 };
+#endif

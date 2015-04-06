@@ -1,3 +1,6 @@
+#ifndef DUNGEONLEVEL_H
+#define DUNGEONLEVEL_H
+
 #include <vector>
 #include "monsterdie.h"
 /*This header file lays out the dungeonlevel code. 
@@ -25,3 +28,5 @@ class DungeonLevel{
   static const int default_size;
   void dumpLevel();
 };
+
+#endif

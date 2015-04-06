@@ -1,3 +1,6 @@
+#ifndef MONSTERDIE_H
+#define MONSTERDIE_H
+
 #include <map>
 #include <string>
 using namespace std;
@@ -34,3 +37,5 @@ public:
     return;
   }
 };
+
+#endif

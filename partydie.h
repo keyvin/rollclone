@@ -1,3 +1,5 @@
+#ifndef PARTYDIE_H
+#define PARTYDIE_H
 #include <map>
 #include <string>
 #include "monsterdie.h"
@@ -50,4 +52,4 @@ class PartyDie
   bool temporary;
 };
 
-
+#endif

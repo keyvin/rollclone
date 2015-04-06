@@ -1,3 +1,5 @@
+#ifndef DRAGONDEN_H
+#define DRAGONDEN_H
 #include <iostream>
 #include <cstdlib>
 
@@ -18,4 +20,4 @@ class DragonDen {
   int getCount();
   bool full();
 };
-
+#endif
