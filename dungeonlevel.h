@@ -22,6 +22,7 @@ class DungeonLevel{
   void remove(const int);
   /*removes face and returns type*/
   int removeType(monster_type);
+  int clearMonsters();
   int getSize();
   bool monsLeft();
   monster_type getFace(const int);

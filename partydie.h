@@ -20,7 +20,7 @@ class PartyDie
   
   void setDie(party_types );
   void toggleTemp();
-  
+  bool isTemp();
   party_types getDie();
   PartyDie * operator = (const PartyDie &);
   void reroll();

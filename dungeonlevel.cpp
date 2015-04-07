@@ -68,3 +68,14 @@ void DungeonLevel::dumpLevel(){
   
   return;
 }
+
+void DungeonLevel::clearMonsters(){
+  int count =0;
+  for (int a=0; a < dice.size(); a++){
+    if (dice[a] == Goblin || dice[a] == Skeleton || dice[a] == Slime){
+      dice[a].remove(a);
+      count++;
+    }
+  }
+  return (count);
+}

@@ -1,3 +1,5 @@
+
+
 #include <ctype.h>
 #include <cstdlib>
 #include <string>
@@ -10,6 +12,7 @@
 using namespace std;
 
 Table::Table(){
+  potion_count = 0;
   return;
 }
 
@@ -19,15 +22,72 @@ void Table::dumpTable(){
 
 void Table::parseCommand(string command){
   //use dice
-  if (command[0] == 'd') {
-    parseDiceCommand(command);
+  int error = 0;
+  if (game_phase == Item){
+    if (command[0]='Q'){
+      game_phase = Monster;
+    }
+    error = parseItem(command);
   }
-  //use item
-
-  //use
+  if (game_phase == PPotion){
+    error = parseResurrection(command);
+    if (!error){
+      potion_count--;
+      if (!potion_count){
+	game_phase = Monster;
+      }
+    }
+  }
+  else if (game_phase == PScroll){
+    if (command[0]='Q'){
+      game_phase = Monster;
+      return;
+    }
+    error = parseReroll(command);
+  }
+  else if (game_phase == Loot || game_phase == Monster) {
+    if (game_phase == Loot && command[0] = 'Q'){
+      game_phase = Dragon_Phase;
+    }
+    else if (game_phase == Monster && !current_level.monsLeft()){
+      game_phase = Loot;
+    }
+    else 
+      parseDiceCommand(command);
+    
+  }
+  else if (game_phase == Dragon_Phase) {
+    if (den.full()){
+      error = parseDragonCommand(command);
+    }
+    else {
+      game_phase = Regroup;
+    }
+  }
+  else if (game_phase == Regroup){
+    if (goDeeper(command)){
+      makeNewLevel();
+    }
+    else {
+      ;
+      /*delve over*/
+    }
+  }
   
+       
+  return error;
+}
+
+int Table::ParseResurrection(string command){
+  int ask_for = -1;
+  char com;
+  sscanf(command.c_str(), "%c%d", &com, &ask_for);
+  if (!my_party.resurrect(PartyDie::PartyMap[ask_for])){
+    game_phase = Loot;
+  }
   return;
 }
+
 
 void Table::parseDiceCommand(string command){
   int pos = 1;
@@ -108,6 +168,11 @@ void Table::parseDiceCommand(string command){
 	game_phase = Dragon_Phase;
       }
     }
+    else if (current_level.getFace(mon) == Potion){
+      /*TODO - if temporary do not allow quaff*/
+      my_party.markUsed(die);
+      potion_count = current_level.removeType(Potion);
+      game_phase = PPotion;
   }
   return;
 }
@@ -139,14 +204,19 @@ void Table::parseItem(string command){
 	my_party.addTmp(Thief);
 	break;
       case IScroll:
-	break;
+	my_party.addTmp(Scroll); /*This may not be correct*/
       case RInv:
+	den.clearDen();
 	break;
       case Elixer:
+	game_phase=PPotion;
+	potion_count=1;
 	break;
       case DBait:
+	den.addToDen(current_level.clearMonsters());	
 	break;
       case TPortal:
+	/*have to set this one up*/
 	break;
      }
   }

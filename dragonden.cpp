@@ -5,6 +5,10 @@ DragonDen::DragonDen(){
   num_den = 0;
 }
 
+void DragonDen::addToDen(int num){
+  num_den+=num;
+  return;
+}
 void DragonDen::clearDen(){
   num_den = 0;
   return;

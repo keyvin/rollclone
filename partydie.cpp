@@ -20,6 +20,9 @@ PartyDie::PartyDie(party_types a){
   temporary = false; 
 }
 
+bool PartyDie::isTemp(){
+  return temporary;
+}
 void PartyDie::setDie(party_types a)
 {
   myFace = a;

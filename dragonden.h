@@ -16,6 +16,7 @@ class DragonDen {
   DragonDen();
   void clearDen();
   void incrementDen();
+  void addToDen(int);
   void fillDen();
   int getCount();
   bool full();

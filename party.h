@@ -19,7 +19,7 @@ class Party {
   vector <party_types> getArray();
   party_types getPos(const int&);
   void addTmp(const party_types &);
-
+  bool resurrect(const party_types &); 
   void clearTemp();
   void markUsed(const int&);
   void dumpParty();

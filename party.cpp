@@ -18,6 +18,17 @@ void Party::reroll(const int &to_reroll) {
   party[to_reroll].reroll();
 }
 
+bool Party::resurrect(const party_types &ask_for){
+  /* to resurrect, there must be a used non temporary die*/
+  for (int a=0; a < party.size(); a++){
+    if (!party[a].isTemp() && party[a] == Used){
+      party[a].setFace(ask_for);
+      return true;
+    }
+  }
+  return false;
+}
+
 //returns list of dice to draw
 vector <party_types> Party::getArray(){
   vector <party_types> to_ret;
