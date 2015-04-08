@@ -4,6 +4,7 @@
 #include "dragonden.h"
 #include "dungeondie.h"
 #include "itempool.h"
+#include <map>
 //#include "misc.h"
 /* phases 
 1.a. use scrolls to reroll dice - need to add code to prevent constant rerolling to get all treasures, or champions or something
@@ -37,4 +38,14 @@ class Table {
   void parseCommand(string command); /*done*/
   void parseDiceCommand(string); /*done - combat, chests, and potions*/
   void parseItem(string); /*done*/
-};
+  static map<Phase, string> phase_map;
+  static void makePhaseMap() {
+    phase_map[Item] = "Item";
+    phase_map[PScroll] = "Scroll";
+    phase_map[PPotion] = "Potion";
+    phase_map[Monster] = "Monster";
+    phase_map[Loot] = "Loot";
+    phase_map[Dragon_Phase] = "Dragon";
+    phase_map[Regroup] = "Regroup";
+  };
+enum Phase  {Item, PScroll, PPotion, Monster, Loot, Dragon_Phase, Regroup};

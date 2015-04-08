@@ -10,11 +10,14 @@ using namespace std;
 int main(int argv, char **argc){
   PartyDie::initPartyMap();
   MonsterDie::makeMaps();
+  Table::makePhaseMaps();
+  Table table;
+  string command;
   //  MonsterDie::makeMaps();
   srand(time(NULL));
   Party P;
   DungeonLevel A(6);
-  P.dumpParty();
-  A.dumpLevel();
+
+
   
 }

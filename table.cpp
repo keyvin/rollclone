@@ -11,6 +11,7 @@
 
 using namespace std;
 
+map<Phase, string> Table::phase_map;
 Table::Table(){
   potion_count = 0;
   return;
