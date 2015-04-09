@@ -5,32 +5,38 @@
 #include <string>
 #include <cstdio>
 #include <cstring>
-#include "table.h"
 #include "partydie.h"
+#include "table.h"
+
 
 
 using namespace std;
 
 map<Phase, string> Table::phase_map;
-Table::Table(){
+
+/*Table::Table(){
   potion_count = 0;
   return;
-}
+  }*/
 
 void Table::dumpTable(){
+  my_party.dumpParty();
+  current_level.dumpLevel();
+  cout << phase_map[game_phase] << endl;
+  
   return;
 }
 
-void Table::parseCommand(string command){
+int Table::parseCommand(string command){
   //use dice
   int error = 0;
   if (game_phase == Item){
-    if (command[0]='Q'){
+    if (command[0]=='Q'){
       game_phase = Monster;
     }
     error = parseItem(command);
   }
-  if (game_phase == PPotion){
+  else if (game_phase == PPotion){
     error = parseResurrection(command);
     if (!error){
       potion_count--;
@@ -42,12 +48,12 @@ void Table::parseCommand(string command){
   else if (game_phase == PScroll){
     if (command[0]='Q'){
       game_phase = Monster;
-      return;
+      return 0 ;
     }
     error = parseReroll(command);
   }
   else if (game_phase == Loot || game_phase == Monster) {
-    if (game_phase == Loot && command[0] = 'Q'){
+    if (game_phase == Loot && command[0] == 'Q'){
       game_phase = Dragon_Phase;
     }
     else if (game_phase == Monster && !current_level.monsLeft()){
@@ -79,18 +85,18 @@ void Table::parseCommand(string command){
   return error;
 }
 
-int Table::ParseResurrection(string command){
+int Table::parseResurrection(string command){
   int ask_for = -1;
   char com;
   sscanf(command.c_str(), "%c%d", &com, &ask_for);
   if (!my_party.resurrect(PartyDie::PartyMap[ask_for])){
     game_phase = Loot;
   }
-  return;
+  return 0;
 }
 
 
-void Table::parseDiceCommand(string command){
+int Table::parseDiceCommand(string command){
   int pos = 1;
   string read_int;
   int die = -1;
@@ -118,7 +124,7 @@ void Table::parseDiceCommand(string command){
   }
   if (mon == -1 || die == -1) {
     cout << "error, refactor to return an error code" << endl;
-    return;
+    return 0;
     /* Which phase are we in ? if in combat then do x, if in loot do y */
   }
   if (game_phase == Monster) {
@@ -140,7 +146,7 @@ void Table::parseDiceCommand(string command){
       }
       else
 	game_phase = Dragon_Phase;
-      return;
+      return 0;
     }
   }
   
@@ -174,20 +180,22 @@ void Table::parseDiceCommand(string command){
       my_party.markUsed(die);
       potion_count = current_level.removeType(Potion);
       game_phase = PPotion;
+    }
   }
-  return;
+  return 0;
 }
 
-void Table::parseItem(string command){
+int Table::parseItem(string command){
 /*parse the usage of items - add temporary dice to the party, etc.*/
   char t;
   int pos = -1;
   item itm;
+  
   if (game_phase == Item){
     sscanf(command.c_str(), "%c%d", &t, &pos); //this is not the cpp way to handle this.
     if (pos < 0 || pos > item_pool.getSize()){
       cout << "ERROR, item out of bounds" << endl;
-      return;
+      return 0;
     }
     /*long ass code that handles the logic for item usage*/
     itm = item_pool.useItem(pos);
@@ -221,5 +229,21 @@ void Table::parseItem(string command){
 	break;
      }
   }
+  return 0;
+}
+
+int Table::parseReroll(string command){
+  return 0;
+}
+
+int Table::parseDragonCommand(string command){
+  return 0;
+}
+
+bool Table::goDeeper(string command){
+  return false;
+}
+
+void Table::makeNewLevel(){
   return;
 }

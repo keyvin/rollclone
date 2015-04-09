@@ -1,3 +1,6 @@
+#ifndef TABLE_H
+#define TABLE_H
+
 #include <string>
 #include "party.h"
 #include "dungeonlevel.h"
@@ -30,14 +33,15 @@ class Table {
   int potion_count;
   void makeNewLevel(); /*not done*/
   int parseDragonCommand(string); /*not done*/
-  int parseReroll(); /*not done*/
-  int parseResurrection(); /*done*/
+  int parseReroll(string); /*not done*/
+  int parseResurrection(string); /*done*/
  public:
-  Table();
+ Table(): current_level(6) {potion_count=0;game_phase=Monster;};
   void dumpTable();
-  void parseCommand(string command); /*done*/
-  void parseDiceCommand(string); /*done - combat, chests, and potions*/
-  void parseItem(string); /*done*/
+  int parseCommand(string); /*done*/
+  int parseDiceCommand(string); /*done - combat, chests, and potions*/
+  int parseItem(string); /*done*/
+  bool goDeeper(string);
   static map<Phase, string> phase_map;
   static void makePhaseMap() {
     phase_map[Item] = "Item";
@@ -47,5 +51,8 @@ class Table {
     phase_map[Loot] = "Loot";
     phase_map[Dragon_Phase] = "Dragon";
     phase_map[Regroup] = "Regroup";
-  };
-enum Phase  {Item, PScroll, PPotion, Monster, Loot, Dragon_Phase, Regroup};
+  }
+  //enum Phase  {Item, PScroll, PPotion, Monster, Loot, Dragon_Phase, Regroup};
+};
+#endif
+ 

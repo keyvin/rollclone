@@ -69,11 +69,12 @@ void DungeonLevel::dumpLevel(){
   return;
 }
 
-void DungeonLevel::clearMonsters(){
+int DungeonLevel::clearMonsters(){
   int count =0;
   for (int a=0; a < dice.size(); a++){
-    if (dice[a] == Goblin || dice[a] == Skeleton || dice[a] == Slime){
-      dice[a].remove(a);
+    monster_type face = dice[a].getFace();
+    if (face == Goblin || face == Skeleton || face == Slime){
+      remove(a);
       count++;
     }
   }
