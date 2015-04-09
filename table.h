@@ -36,7 +36,7 @@ class Table {
   int parseReroll(string); /*not done*/
   int parseResurrection(string); /*done*/
  public:
- Table(): current_level(6) {potion_count=0;game_phase=Monster;};
+ Table(): current_level(6) {potion_count=0;game_phase=Item; item_pool.addRandom(); item_pool.addRandom();};
   void dumpTable();
   int parseCommand(string); /*done*/
   int parseDiceCommand(string); /*done - combat, chests, and potions*/

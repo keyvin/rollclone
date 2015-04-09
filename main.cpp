@@ -11,6 +11,7 @@ int main(int argv, char **argc){
   PartyDie::initPartyMap();
   MonsterDie::makeMaps();
   Table::makePhaseMap();
+  ItemPool::makeItemMap();
   Table table;
   string command;
   bool q = false;

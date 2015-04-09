@@ -22,6 +22,7 @@ map<Phase, string> Table::phase_map;
 void Table::dumpTable(){
   my_party.dumpParty();
   current_level.dumpLevel();
+  item_pool.dumpItemPool();
   cout << phase_map[game_phase] << endl;
   
   return;
@@ -103,6 +104,7 @@ int Table::parseDiceCommand(string command){
   int mon = -1;
   party_types p_die;
   monster_type m_die;
+  
   if (isdigit(command[1])){
     read_int.append(&command[1]);
     pos++;
@@ -114,7 +116,7 @@ int Table::parseDiceCommand(string command){
     //Con
   die = atoi(read_int.c_str());
   cout << "Die: " << die << " selected" << endl;
-  if (command[pos]=='m'){
+  if (command[pos]=='M'){
     //at most one digit of m dice
     pos++;
     if (isdigit(command[pos])){
@@ -164,11 +166,15 @@ int Table::parseDiceCommand(string command){
 	/*get all treasures*/
 	int num_treas = current_level.removeType(Chest);
 	cout << "stub to award "<< num_treas << "." << endl;
+	for (int a = 0; a < num_treas; a++){
+	  item_pool.addRandom();
+	}
       }
       else{
 	current_level.remove(mon);
 	my_party.markUsed(die);
 	cout << "Award one treasure" << endl;
+	item_pool.addRandom();
 	/*award one treasure*/
       }
       if (current_level.getSize() == 0){
@@ -217,7 +223,7 @@ int Table::parseItem(string command){
       case RInv:
 	den.clearDen();
 	break;
-      case Elixer:
+      case Elixir:
 	game_phase=PPotion;
 	potion_count=1;
 	break;
