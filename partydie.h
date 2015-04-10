@@ -41,6 +41,7 @@ class PartyDie
     PartyDie::TypeToString[Mage] = string("Mage");
     PartyDie::TypeToString[Champion] = string("champion");
     PartyDie::TypeToString[Scroll] = string("scroll");
+    PartyDie::TypeToString[Used] = string("used");
     PartyDie::Bane[Fighter] = Goblin;
     PartyDie::Bane[Mage] = Slime;
     PartyDie::Bane[Cleric] = Skeleton;

@@ -28,6 +28,7 @@ class DungeonLevel{
   monster_type getFace(const int);
   static const int default_size;
   void dumpLevel();
+  void newLevel(int);
 };
 
 #endif

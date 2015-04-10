@@ -20,10 +20,14 @@ map<Phase, string> Table::phase_map;
   }*/
 
 void Table::dumpTable(){
+  cout << "Party" << endl;
   my_party.dumpParty();
+  cout << "Monsters" << endl;
   current_level.dumpLevel();
+  cout << "Items" << endl;
   item_pool.dumpItemPool();
-  cout << phase_map[game_phase] << endl;
+  cout << "Dragon den has: " << den.getCount() << endl;
+  cout << "Phase: " << phase_map[game_phase] << endl;
   
   return;
 }
@@ -81,7 +85,8 @@ int Table::parseCommand(string command){
       /*delve over*/
     }
   }
-  
+ 
+ 
        
   return error;
 }
@@ -242,14 +247,61 @@ int Table::parseReroll(string command){
   return 0;
 }
 
+/*TODO - if not enough dice, force lose*/
 int Table::parseDragonCommand(string command){
+  char a;
+  int sel_die = -1;
+  sscanf(command.c_str(), "%c%d", &a, &sel_die);
+  
+  if (sel_die > 0){
+    party_types face = my_party.getPos(sel_die);
+    if (face == Fighter || face == Champion || face == Mage || face == Cleric || face == Thief){
+      for (int a =0; a < against_dragon.size(); a++){ /* Might be a candidate for refactor to dragon den*/ 
+	if (face == against_dragon[a]) {
+	  return 0; /*return an error code indicating this is already used*/
+	}
+      }
+      against_dragon.push_back(face);
+      if (against_dragon.size() == 3){
+	cout << "Dragon slayed, treasure awarded - TODO add experience point";
+	item_pool.addRandom();
+	against_dragon.erase(against_dragon.begin(), against_dragon.end());
+	den.clearDen();
+	game_phase = Regroup;
+      }
+    }
+  }
+  else {
+    return 0;  /*return error saying must pick a valid face*/
+  }
   return 0;
 }
 
 bool Table::goDeeper(string command){
-  return false;
+  if (command[0] == 'Y')
+    return true;
+  else
+    return false;
 }
 
 void Table::makeNewLevel(){
+  int num_dragons = 0;
+  int max_dice = 0;
+  int tmp = 0;
+  /*calculate how many dice are available. Hard to figure out right now*/
+  max_dice = d_die.getLevel();
+  if (max_dice > 6){
+    max_dice = 6;
+  }
+  if (den.getCount() + max_dice > 6){
+    tmp = 6 - (den.getCount() + max_dice);
+    max_dice = 6 + tmp;
+  }
+  current_level.newLevel(max_dice);
+  d_die.incrementLevel();
+  num_dragons = current_level.removeType(Dragon);
+  den.addToDen(num_dragons);
+  game_phase = Item;
   return;
 }
+

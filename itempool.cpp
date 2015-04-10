@@ -12,7 +12,7 @@ ItemPool::ItemPool(){
 
 void ItemPool::dumpItemPool(){
   for (int a = 0; a< item_pool.size(); a++){
-    cout << a << ". " << item_name_map[item_map[a]];
+    cout << a << ". " << item_name_map[item_pool[a]] << " ";
   }
   cout << endl;
   return;
@@ -29,6 +29,7 @@ void ItemPool::addItem(item to_add){
 
 item ItemPool::useItem(int i){
   item a = item_pool[i];
+  cout << "Erasing Item: " << i<< endl;
   item_pool.erase(item_pool.begin()+i);
   return a;
 }

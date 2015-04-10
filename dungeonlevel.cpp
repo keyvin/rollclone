@@ -80,3 +80,8 @@ int DungeonLevel::clearMonsters(){
   }
   return (count);
 }
+
+void DungeonLevel::newLevel(int num){
+  dice.resize(num);
+  reRollAll();
+}

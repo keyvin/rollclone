@@ -8,6 +8,7 @@
 #include "dungeondie.h"
 #include "itempool.h"
 #include <map>
+#include <vector>
 //#include "misc.h"
 /* phases 
 1.a. use scrolls to reroll dice - need to add code to prevent constant rerolling to get all treasures, or champions or something
@@ -24,6 +25,8 @@ using namespace std;
 /* this class has a combat rules object that is changed by hero passives. Need to implement this. One place a heirarchy will work out nicely */
 class Table {
  private:
+
+  vector <party_types> against_dragon;   /*keeps track of what we are using against the dragon*/
   Party my_party;
   DungeonLevel current_level;
   DragonDen den;
@@ -36,7 +39,7 @@ class Table {
   int parseReroll(string); /*not done*/
   int parseResurrection(string); /*done*/
  public:
- Table(): current_level(6) {potion_count=0;game_phase=Item; item_pool.addRandom(); item_pool.addRandom();};
+ Table(): current_level(1) {potion_count=0;game_phase=Item; item_pool.addRandom(); item_pool.addRandom();};
   void dumpTable();
   int parseCommand(string); /*done*/
   int parseDiceCommand(string); /*done - combat, chests, and potions*/

@@ -1,4 +1,8 @@
-Implement items, item pool, dragon den, turn die. 
+//Implement items, item pool, dragon den, turn die. 
 
-Implement a function that implements turn order, then other functions that implement the rules. 
+//Implement a function that implements turn order, then other functions that implement the rules. 
 
+
+Dragon phase is behaving.. oddly. I need to implement something that causes the phase to skip forward if no monters, items, or dragons.
+
+Still need to implement scrolls.
