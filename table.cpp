@@ -28,7 +28,7 @@ void Table::dumpTable(){
   item_pool.dumpItemPool();
   cout << "Dragon den has: " << den.getCount() << endl;
   cout << "Phase: " << phase_map[game_phase] << endl;
-  
+
   return;
 }
 
@@ -51,7 +51,7 @@ int Table::parseCommand(string command){
     }
   }
   else if (game_phase == PScroll){
-    if (command[0]='Q'){
+    if (command[0]=='Q'){
       game_phase = Monster;
       return 0 ;
     }
@@ -64,9 +64,9 @@ int Table::parseCommand(string command){
     else if (game_phase == Monster && !current_level.monsLeft()){
       game_phase = Loot;
     }
-    else 
+    else
       parseDiceCommand(command);
-    
+
   }
   else if (game_phase == Dragon_Phase) {
     if (den.full()){
@@ -85,9 +85,22 @@ int Table::parseCommand(string command){
       /*delve over*/
     }
   }
- 
- 
-       
+  /*if there are no monsters, skip to loot*/
+
+
+  /* if there is no dragon, skip to regroup*/
+  if (game_phase == Monster){
+    if (!current_level.monsLeft()){
+        game_phase = Loot;
+    }
+  }
+
+  if (game_phase == Dragon_Phase){
+    if (!den.full()){
+        game_phase = Regroup;
+    }
+  }
+
   return error;
 }
 
@@ -105,11 +118,24 @@ int Table::parseResurrection(string command){
 int Table::parseDiceCommand(string command){
   int pos = 1;
   string read_int;
+  char p;
   int die = -1;
   int mon = -1;
   party_types p_die;
   monster_type m_die;
-  
+  if (command[0] == 'S'){
+    sscanf(command.c_str(), "%c%d", &p, &die);
+    if (my_party.getPos(die) == Scroll){
+        game_phase = PScroll;
+        my_party.markUsed(die);
+    }
+    else
+    {
+        cout << "Not a scroll" << endl;
+    }
+    return 0;
+  }
+
   if (isdigit(command[1])){
     read_int.append(&command[1]);
     pos++;
@@ -139,6 +165,7 @@ int Table::parseDiceCommand(string command){
     p_die = my_party.getPos(die);
     m_die = current_level.getFace(mon);
     /*is this a bane?*/
+
     if (PartyDie::Bane[p_die] == m_die || p_die == Champion){
       current_level.removeType(m_die);
       my_party.markUsed(die);
@@ -156,7 +183,7 @@ int Table::parseDiceCommand(string command){
       return 0;
     }
   }
-  
+
   if (game_phase == Loot){
     party_types p_face;
     /*quaff potions and loot chests code*/
@@ -201,7 +228,7 @@ int Table::parseItem(string command){
   char t;
   int pos = -1;
   item itm;
-  
+
   if (game_phase == Item){
     sscanf(command.c_str(), "%c%d", &t, &pos); //this is not the cpp way to handle this.
     if (pos < 0 || pos > item_pool.getSize()){
@@ -224,7 +251,7 @@ int Table::parseItem(string command){
 	my_party.addTmp(Thief);
 	break;
       case IScroll:
-	my_party.addTmp(Scroll); /*This may not be correct*/
+	my_party.addTmp(Scroll);
       case RInv:
 	den.clearDen();
 	break;
@@ -233,7 +260,7 @@ int Table::parseItem(string command){
 	potion_count=1;
 	break;
       case DBait:
-	den.addToDen(current_level.clearMonsters());	
+	den.addToDen(current_level.clearMonsters());
 	break;
       case TPortal:
 	/*have to set this one up*/
@@ -243,7 +270,40 @@ int Table::parseItem(string command){
   return 0;
 }
 
+//TODO - KEEP FROM REROLLING TEMPS
 int Table::parseReroll(string command){
+  char a;
+  int die = -1;
+  sscanf(command.c_str(), "%c%d", &a, &die);
+  if (command[0] == 'Q'){
+    current_level.clearReRolled();
+    my_party.clearReRolled();
+    game_phase = Monster;
+  }
+  if (die < 0){
+    cout << "Invalid die" << endl;
+    return 300;
+  }
+  if (command[0] == 'M'){
+    if (!current_level.hasReRolled(die)){
+        current_level.markAndReRolled(die);
+    }
+    else {
+        cout << "already rerolled" << endl;
+        return 301;
+    }
+  }
+  if (command[0] == 'D') {
+    if (!my_party.hasReRolled(die) && my_party.getPos(die) !=Used && !my_party.isTemp(die) ){
+        my_party.markReRolled(die);
+        my_party.reRoll(die);
+    }
+    else {
+        cout << "already rerolled, used, or is temp" << endl;
+        return 302;
+    }
+  }
+
   return 0;
 }
 
@@ -252,26 +312,29 @@ int Table::parseDragonCommand(string command){
   char a;
   int sel_die = -1;
   sscanf(command.c_str(), "%c%d", &a, &sel_die);
-  
+
   if (sel_die > 0){
     party_types face = my_party.getPos(sel_die);
     if (face == Fighter || face == Champion || face == Mage || face == Cleric || face == Thief){
-      for (int a =0; a < against_dragon.size(); a++){ /* Might be a candidate for refactor to dragon den*/ 
-	if (face == against_dragon[a]) {
-	  return 0; /*return an error code indicating this is already used*/
-	}
+      for (int a =0; a < against_dragon.size(); a++){ /* Might be a candidate for refactor to dragon den*/
+        if (face == against_dragon[a]) {
+        cout << "Die face already used" << endl;
+        return 0; /*return an error code indicating this is already used*/
+        }
       }
       against_dragon.push_back(face);
+      my_party.markUsed(sel_die);
       if (against_dragon.size() == 3){
-	cout << "Dragon slayed, treasure awarded - TODO add experience point";
-	item_pool.addRandom();
-	against_dragon.erase(against_dragon.begin(), against_dragon.end());
-	den.clearDen();
-	game_phase = Regroup;
+        cout << "Dragon slayed, treasure awarded - TODO add experience point";
+        item_pool.addRandom();
+        against_dragon.erase(against_dragon.begin(), against_dragon.end());
+        den.clearDen();
+        game_phase = Regroup;
       }
     }
   }
   else {
+    cout << "Invalid Die";
     return 0;  /*return error saying must pick a valid face*/
   }
   return 0;

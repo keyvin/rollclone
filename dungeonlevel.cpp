@@ -14,7 +14,7 @@ void DungeonLevel::reRollAll(){
 }
 
 DungeonLevel::DungeonLevel(){
-  DungeonLevel(DungeonLevel::default_size); 
+  DungeonLevel(DungeonLevel::default_size);
 }
 
 DungeonLevel::DungeonLevel(const int size){
@@ -65,7 +65,7 @@ void DungeonLevel::dumpLevel(){
   for (int a=0; a < dice.size(); a++){
     cout << a << ". " << MonsterDie::name_map[dice[a].getFace()] << endl;
   }
-  
+
   return;
 }
 
@@ -84,4 +84,20 @@ int DungeonLevel::clearMonsters(){
 void DungeonLevel::newLevel(int num){
   dice.resize(num);
   reRollAll();
+}
+
+bool DungeonLevel::hasReRolled(int pos){
+    return dice[pos].hasReRolled();
+}
+
+void DungeonLevel::markAndReRolled(int pos){
+    dice[pos].reRoll();
+    dice[pos].markReRolled();
+}
+
+/*make sure to call this upon exiting the scroll phase*/
+void DungeonLevel::clearReRolled(){
+    for (int a = 0; a < dice.size(); a++){
+        dice[a].clearReRolled();
+    }
 }

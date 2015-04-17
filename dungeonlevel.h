@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "monsterdie.h"
-/*This header file lays out the dungeonlevel code. 
+/*This header file lays out the dungeonlevel code.
   Generating a dungeon level is simple - roll six dice*/
 
 
@@ -29,6 +29,9 @@ class DungeonLevel{
   static const int default_size;
   void dumpLevel();
   void newLevel(int);
+  void markAndReRolled(int);
+  bool hasReRolled(int);
+  void clearReRolled();
 };
 
 #endif

@@ -23,5 +23,5 @@ int DragonDen::getCount(){
 }
 
 bool DragonDen::full(){
-  return (num_den == DragonDen::max_dragon);
+  return (num_den == DragonDen::max_dragon || num_den > DragonDen::max_dragon);
 }

@@ -10,11 +10,15 @@ enum monster_type {Slime, Skeleton, Goblin, Potion, Chest, Dragon, None};
 class MonsterDie{
 private:
   monster_type myFace;
+  bool has_rerolled;
 public:
   MonsterDie();
   MonsterDie(monster_type);
   monster_type getFace();
-  void reRoll(); 
+  void reRoll();
+  bool hasReRolled();
+  void markReRolled();
+  void clearReRolled();
   void setFace(monster_type);
   static map<int, monster_type> mons_map;
   static map<monster_type, string> name_map;

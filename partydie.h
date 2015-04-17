@@ -3,24 +3,27 @@
 #include <map>
 #include <string>
 #include "monsterdie.h"
-using namespace std; 
+using namespace std;
 
 enum party_types {Fighter, Cleric, Mage, Thief, Champion, Scroll, Used};
 
 
 
 
-//typedef enum party_types 
+//typedef enum party_types
 
 class PartyDie
 {
  public:
   PartyDie();
   PartyDie(party_types);
-  
+
   void setDie(party_types );
   void toggleTemp();
   bool isTemp();
+  bool hasReRolled();
+  void markReRolled();
+  void clearReRolled();
   party_types getDie();
   PartyDie * operator = (const PartyDie &);
   void reroll();
@@ -51,6 +54,7 @@ class PartyDie
  private:
   party_types myFace;
   bool temporary;
+  bool re_rolled;
 };
 
 #endif

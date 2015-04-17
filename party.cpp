@@ -5,7 +5,7 @@ using namespace std;
 const int Party::numdie = 6;
 
 
-//bad code. I should initialize party with a size and then use that rather than a const. This is just lazy to get it to work. 
+//bad code. I should initialize party with a size and then use that rather than a const. This is just lazy to get it to work.
 /* initialize numdie dice */
 Party::Party(){
   for (int a = 0; a < numdie; a++){
@@ -14,7 +14,7 @@ Party::Party(){
 }
 
 /*add range checking*/
-void Party::reroll(const int &to_reroll) {
+void Party::reRoll(const int &to_reroll) {
   party[to_reroll].reroll();
 }
 
@@ -61,16 +61,39 @@ void Party::clearTemp(){
 
 /*misleading name - perhaps markused*/
 void Party::markUsed(const int &pos){
-  party[pos].setDie(Used);
+  if (party[pos].isTemp()){
+    party.erase(party.begin()+pos);
+  }
+  else {
+    party[pos].setDie(Used);
+  }
   return;
 }
 
+bool Party::hasReRolled( int pos){
+    return party[pos].hasReRolled();
+}
+
+void Party::markReRolled( int pos){
+    party[pos].markReRolled();
+}
+
+void Party::clearReRolled() {
+    for ( int a = 0; a < party.size(); a++){
+        party[a].clearReRolled();
+    }
+    return;
+}
 void Party::dumpParty() {
   for (int a = 0; a < party.size(); a++){
     cout << a << ". " << PartyDie::TypeToString[party[a].getDie()] << endl;
   }
   return;
 }
-      
+
+bool Party::isTemp(int pos) {
+    return party[pos].isTemp();
+}
+
 
 

@@ -8,6 +8,7 @@ using namespace std;
 
 
 int main(int argv, char **argc){
+  srand(time(NULL));
   PartyDie::initPartyMap();
   MonsterDie::makeMaps();
   Table::makePhaseMap();
@@ -16,7 +17,7 @@ int main(int argv, char **argc){
   string command;
   bool q = false;
   //  MonsterDie::makeMaps();
-  srand(time(NULL));
+  
   Party P;
   DungeonLevel A(6);
   A.dumpLevel();

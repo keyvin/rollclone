@@ -15,13 +15,17 @@ class Party {
  public:
 
   Party(); /*new party*/
-  void reroll(const int&);
+  void reRoll(const int&);
   vector <party_types> getArray();
   party_types getPos(const int&);
   void addTmp(const party_types &);
-  bool resurrect(const party_types &); 
+  bool resurrect(const party_types &);
   void clearTemp();
   void markUsed(const int&);
   void dumpParty();
+  void markReRolled(int );
+  bool hasReRolled(int);
+  bool isTemp(int);
+  void clearReRolled();
 };
 #endif
