@@ -9,7 +9,7 @@
 #include "table.h"
 
 
-
+/*TODO Thieve does not appear to open all chests*/
 using namespace std;
 
 map<Phase, string> Table::phase_map;
@@ -20,6 +20,7 @@ map<Phase, string> Table::phase_map;
   }*/
 
 void Table::dumpTable(){
+  cout << "DUNGEON LEVEL: " << d_die.getLevel() << endl;
   cout << "Party" << endl;
   my_party.dumpParty();
   cout << "Monsters" << endl;
@@ -185,16 +186,19 @@ int Table::parseDiceCommand(string command){
   }
 
   if (game_phase == Loot){
-    party_types p_face;
+
     /*quaff potions and loot chests code*/
     if (current_level.getFace(mon) == Potion){
       cout << "Should revive dice, might need to make another stage of the game for quaffing potions" << endl;
+      my_party.markUsed(die);
+      potion_count = current_level.removeType(Potion);
+      game_phase = PPotion;
       /*set dice to selected, remove potions*/
     }
     if (current_level.getFace(mon) == Chest){
       cout << "Get some treasures" << endl;
       p_die = my_party.getPos(die);
-      if (p_face == Thief || p_face == Champion){
+      if (p_die == Thief || p_die == Champion){
 	/*get all treasures*/
 	int num_treas = current_level.removeType(Chest);
 	cout << "stub to award "<< num_treas << "." << endl;

@@ -63,8 +63,9 @@ bool DungeonLevel::monsLeft(){
 
 void DungeonLevel::dumpLevel(){
   for (int a=0; a < dice.size(); a++){
-    cout << a << ". " << MonsterDie::name_map[dice[a].getFace()] << endl;
+    cout << a << ". " << MonsterDie::name_map[dice[a].getFace()] << " ";
   }
+  cout << endl;
 
   return;
 }

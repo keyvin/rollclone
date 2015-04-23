@@ -86,8 +86,9 @@ void Party::clearReRolled() {
 }
 void Party::dumpParty() {
   for (int a = 0; a < party.size(); a++){
-    cout << a << ". " << PartyDie::TypeToString[party[a].getDie()] << endl;
+    cout << a << ". " << PartyDie::TypeToString[party[a].getDie()] << " ";
   }
+  cout << endl;
   return;
 }
 
